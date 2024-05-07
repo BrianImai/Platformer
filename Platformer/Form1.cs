@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace Platformer
 
         private void MainGameTimerEvent(object sender, EventArgs e)
         {
+            DrawingControl.SuspendDrawing(this);
             //Score Counter
             scoreCounter.Text = "Score: " + score;
 
@@ -58,8 +60,8 @@ namespace Platformer
             }
              
             //Player goes Out of Bounds, Bottom/Left/Right
-            if (player.Top > 720)
-                RestartGame();
+            if (player.Top + player.Height > this.ClientSize.Height + 20)
+                RestartGame();                           
             if (player.Left < -10)
                 RestartGame();
             if (player.Left > 1290)
@@ -88,6 +90,19 @@ namespace Platformer
                     }                                       
                 }
             }
+
+            if (player.Bounds.IntersectsWith(objFlag.Bounds) && score == 25)
+            {
+                gameTimer.Stop();
+                isGameOver = true;
+                scoreCounter.Text = "Score: " + score + Environment.NewLine + "Congrats! You won!\nPress Enter to restart...";
+            }
+            else
+            {
+                scoreCounter.Text = "Score: " + score + Environment.NewLine + "Collect all the coins!";
+            }
+
+            DrawingControl.ResumeDrawing(this);
         }
                 
         //Key Detection
@@ -138,13 +153,30 @@ namespace Platformer
             //Reset position of player
             player.Left = 21;
             player.Top = 620;
-
-            //restartBox.Visible = true;
-            //Thread.Sleep(3000);
-            //restartBox.Visible = false;
-
+            
             //Restart Game
             gameTimer.Start();
         }
+
+        //Stop Flickering Issue
+        class DrawingControl
+        {
+            [DllImport("user32.dll")]
+            public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+
+            private const int WM_SETREDRAW = 11;
+
+            public static void SuspendDrawing(Control parent)
+            {
+                SendMessage(parent.Handle, WM_SETREDRAW, false, 0);
+            }
+
+            public static void ResumeDrawing(Control parent)
+            {
+                SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
+                parent.Refresh();
+            }
+        }
+
     }
 }

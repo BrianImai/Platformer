@@ -112,12 +112,12 @@
             // scoreCounter
             // 
             this.scoreCounter.Font = new System.Drawing.Font("Calibri", 14F);
-            this.scoreCounter.Location = new System.Drawing.Point(536, 9);
+            this.scoreCounter.Location = new System.Drawing.Point(483, 9);
             this.scoreCounter.Name = "scoreCounter";
-            this.scoreCounter.Size = new System.Drawing.Size(185, 39);
+            this.scoreCounter.Size = new System.Drawing.Size(307, 106);
             this.scoreCounter.TabIndex = 0;
             this.scoreCounter.Text = "Score: 0";
-            this.scoreCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.scoreCounter.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // pictureBox1
             // 
@@ -221,10 +221,12 @@
             // 
             // player
             // 
-            this.player.BackColor = System.Drawing.Color.Black;
-            this.player.Location = new System.Drawing.Point(21, 613);
+            this.player.BackColor = System.Drawing.Color.Transparent;
+            this.player.Image = global::Platformer.Properties.Resources.stickman;
+            this.player.Location = new System.Drawing.Point(21, 609);
             this.player.Name = "player";
-            this.player.Size = new System.Drawing.Size(15, 25);
+            this.player.Size = new System.Drawing.Size(24, 36);
+            this.player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.player.TabIndex = 11;
             this.player.TabStop = false;
             this.player.Tag = "player";
@@ -237,7 +239,7 @@
             this.objFlag.Size = new System.Drawing.Size(15, 25);
             this.objFlag.TabIndex = 12;
             this.objFlag.TabStop = false;
-            this.objFlag.Tag = "platform";
+            this.objFlag.Tag = "";
             // 
             // pictureBox11
             // 
